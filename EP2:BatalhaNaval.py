@@ -173,44 +173,47 @@ def imprime_mapa(mapa_jogador, mapa_computador, nome_pais_jogador, nome_pais_com
 def aloca_navios_humano(mapa_jogador, mapa_computador, nome_pais_jogador, nome_pais_computador):
     print(f"Você escolheu a nação {nome_pais_jogador}")
     print("Agora é a sua vez de alocar seus navios de guerra!")
-    imprime_mapa(mapa_jogador, mapa_computador, nome_pais_jogador, nome_pais_computador)
+    #imprime_mapa(mapa_jogador, mapa_computador, nome_pais_jogador, nome_pais_computador)
     for tipo_navio, quantidade in PAISES[nome_pais_jogador].items():
         print(f"\nAloque os navios do tipo {tipo_navio}:")
         tipo_navio_bloco = CONFIGURACAO[tipo_navio]
         for i in range(quantidade):
+            imprime_mapa(mapa_jogador, mapa_computador, nome_pais_jogador, nome_pais_computador)
             sucesso = False
             while not sucesso:
                 print(f"\nAlocação do {i+1}º {tipo_navio}\n")
-                imprime_mapa(mapa_jogador, mapa_computador, nome_pais_jogador, nome_pais_computador)
+                #imprime_mapa(mapa_jogador, mapa_computador, nome_pais_jogador, nome_pais_computador)
                 linha = input("\nDigite o número da linha (1 a 10): ")
-                if not linha or not linha.replace("-", "").replace(" ", "").replace("+", "").replace(".", "").replace(",", "").replace("e", "").replace("E", "").replace("/", "").replace("\\", "").replace("?", "").replace("!", "").replace("@", "").replace("#", "").replace("$", "").replace("%", "").replace("^", "").replace("&", "").replace("*", "").replace("(", "").replace(")", "").replace("[", "").replace("]", "").replace("{", "").replace("}", "") in "0123456789" or int(linha) < 1 or int(linha) > 10:
-                    print("Linha inválida, tente novamente.")
-                    continue
-                linha = int(linha) - 1
-                coluna = input("Digite a letra da coluna (A a J): ").upper()
-                if coluna not in ALFABETO:
-                    print("Coluna inválida, tente novamente.")
-                    continue
-                coluna = ALFABETO.index(coluna)
-                orientacao = input("Digite a orientação do navio (v para vertical, h para horizontal): ").lower()
-                if posicao_suporta(mapa_jogador, tipo_navio_bloco, linha, coluna, orientacao):
-                    if orientacao == 'v':
-                        for j in range(linha, linha + tipo_navio_bloco):
-                            mapa_jogador[j][coluna] = '🛳'
+                if linha and linha.replace("-", "").replace(" ", "").replace("+", "").replace(".", "").replace(",", "").replace("e", "").replace("E", "").replace("/", "").replace("\\", "").replace("?", "").replace("!", "").replace("@", "").replace("#", "").replace("$", "").replace("%", "").replace("^", "").replace("&", "").replace("*", "").replace("(", "").replace(")", "").replace("[", "").replace("]", "").replace("{", "").replace("}", "") in "0123456789" and 1 <= int(linha) <= 10:
+                    linha = int(linha) - 1
+                    coluna = input("Digite a letra da coluna (A a J): ").upper()
+                    if coluna in ALFABETO:
+                        coluna = ALFABETO.find(coluna)
+                        orientacao = input("Digite a orientação do navio (v para vertical, h para horizontal): ").lower()
+                        if posicao_suporta(mapa_jogador, tipo_navio_bloco, linha, coluna, orientacao):
+                            if orientacao == 'v':
+                                for j in range(linha, linha + tipo_navio_bloco):
+                                    mapa_jogador[j][coluna] = '🛳'
+                            else:
+                                for j in range(coluna, coluna + tipo_navio_bloco):
+                                    mapa_jogador[linha][j] = '🛳'
+                            sucesso = True
+                        else:
+                            print("Posição inválida, tente novamente.")
                     else:
-                        for j in range(coluna, coluna + tipo_navio_bloco):
-                            mapa_jogador[linha][j] = '🛳'
-                    sucesso = True
+                        print("Coluna inválida, tente novamente.")
                 else:
-                    print("Posição inválida, tente novamente.")
-        print()
+                    print("Linha inválida, tente novamente.")
+    print()
+
 
 
 # Função para o jogador real realizar um ataque
 def ataque_humano(mapa_jogador, mapa_computador, nome_pais_jogador, nome_pais_computador):
     sucesso = False
+    imprime_mapa(mapa_jogador, mapa_computador, nome_pais_jogador, nome_pais_computador)
     while not sucesso:
-        imprime_mapa(mapa_jogador, mapa_computador, nome_pais_jogador, nome_pais_computador)
+        #imprime_mapa(mapa_jogador, mapa_computador, nome_pais_jogador, nome_pais_computador)
         print("\nAtaque:")
         linha = input("Digite o número da linha (1 a 10): ")
         if not linha.isdigit() or int(linha) < 1 or int(linha) > 10:
@@ -282,9 +285,12 @@ def batalha_naval():
         print("\033[1;30;m|                                    |\033[m")
         print("\033[1;30;m======================================\033[m")
         print(" ")
+        time.sleep(1)
         nome_pais_computador = escolher_pais_computador()
         print(f"Computador está alocando os navios de guerra do país {nome_pais_computador}...")
+        time.sleep(1)
         print("             Computador está pronto para jogar!")
+        time.sleep(1)
         print(" ")
         mapa_jogador = cria_mapa(10)
         mapa_computador = cria_mapa(10)
