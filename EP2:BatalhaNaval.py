@@ -165,6 +165,7 @@ def imprime_mapa(mapa_jogador, mapa_computador, nome_pais_jogador, nome_pais_com
     print("       ", end="")
     print("   " + "  ".join([ALFABETO[i] for i in range(N)]))
 
+
 # Função para o jogador real alocar seus navios
 def aloca_navios_humano(mapa_jogador, mapa_computador, nome_pais_jogador, nome_pais_computador):
     print(f"Você escolheu a nação {nome_pais_jogador}")
@@ -172,10 +173,6 @@ def aloca_navios_humano(mapa_jogador, mapa_computador, nome_pais_jogador, nome_p
     imprime_mapa(mapa_jogador, mapa_computador, nome_pais_jogador, nome_pais_computador)
     for tipo_navio, quantidade in PAISES[nome_pais_jogador].items():
         print(f"\nAloque os navios do tipo {tipo_navio}:")
-        print("  ", end="")
-        for proximo_tipo, quantidade in PROXIMOS[nome_pais_jogador].items():
-            print(proximo_tipo, end=", ")
-        print()
         tipo_navio_bloco = CONFIGURACAO[tipo_navio]
         for i in range(quantidade):
             sucesso = False
@@ -203,7 +200,8 @@ def aloca_navios_humano(mapa_jogador, mapa_computador, nome_pais_jogador, nome_p
                     sucesso = True
                 else:
                     print("Posição inválida, tente novamente.")
-        print()  
+        print()
+
 
 # Função para o jogador real realizar um ataque
 def ataque_humano(mapa_jogador, mapa_computador, nome_pais_jogador, nome_pais_computador):
