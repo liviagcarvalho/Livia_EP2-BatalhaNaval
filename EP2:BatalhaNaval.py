@@ -202,3 +202,45 @@ def ataque_computador(mapa):
             print("Acertou um navio!")
             mapa[linha][coluna] = 'X'
             sucesso = True
+
+##############################################################################################################################################
+#   Colocando o jogo para funcionar!  #
+
+def batalha_naval():
+    print("Bem-vindo ao jogo de Batalha Naval!\n")
+    print("Escolha seu país:")
+    for i, pais in enumerate(PAISES.keys()):
+        print(f"{i+1}. {pais}")
+    escolha = int(input("Digite o número correspondente ao país que você deseja representar: "))
+    while escolha < 1 or escolha > len(PAISES):
+        print("Escolha inválida, tente novamente.")
+        escolha = int(input("Digite o número correspondente ao país que você deseja representar: "))
+    nome_pais = list(PAISES.keys())[escolha - 1]
+    mapa_jogador = cria_mapa(10)
+    mapa_computador = cria_mapa(10)
+    aloca_navios_humano(mapa_jogador, nome_pais)
+    aloca_navios(mapa_computador, [CONFIGURACAO[tipo] for tipo in PAISES[random.choice(list(PAISES.keys()))].keys()])
+    jogador_venceu = False
+    computador_venceu = False
+    vez_jogador = random.choice([True, False])
+    while not jogador_venceu and not computador_venceu:
+        if vez_jogador:
+            print("\nSua vez de atacar!")
+            ataque_humano(mapa_computador)
+            if foi_derrotado(mapa_computador):
+                jogador_venceu = True
+        else:
+            print("\nVez do computador atacar!")
+            ataque_computador(mapa_jogador)
+            if foi_derrotado(mapa_jogador):
+                computador_venceu = True
+        vez_jogador = not vez_jogador
+    print("\nJogo encerrado!")
+    if jogador_venceu:
+        print(f"Parabéns! Você venceu representando o país {nome_pais}!")
+    else:
+        print("Você perdeu! O computador venceu.")
+
+    # EXECUÇÃO DO JOGO
+if __name__ == "__main__":
+    batalha_naval() 
