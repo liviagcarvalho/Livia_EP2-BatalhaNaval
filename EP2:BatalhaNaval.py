@@ -76,6 +76,7 @@ PROXIMOS = {
 #   FUNÇÕES OBRIGATÓRIAS  #
 
 import random
+import time
 
     # Cria matriz quadrada de espaços
 def cria_mapa(N):
@@ -139,8 +140,8 @@ def foi_derrotado(matriz):
  # Função para imprimir o mapa
 def imprime_mapa(mapa_jogador, mapa_computador, nome_pais_jogador, nome_pais_computador):
     N = len(mapa_jogador)
-    print(f"    JOGADOR - {nome_pais_jogador:20}{'COMPUTADOR - ' + nome_pais_computador:20}")
-    print("   " + "  ".join([ALFABETO[i] for i in range(N)]), end="")
+    print(f"    JOGADOR - {nome_pais_jogador:20}{'           COMPUTADOR - ' + nome_pais_computador:20}")
+    print("   " + "  ".join([ALFABETO[i] for i in range(N)]), end="    ")
     print("       ", end="")
     print("   " + "  ".join([ALFABETO[i] for i in range(N)]))
     for i in range(N):
@@ -151,7 +152,7 @@ def imprime_mapa(mapa_jogador, mapa_computador, nome_pais_jogador, nome_pais_com
             elif mapa_jogador[i][j] == 'X':
                 print(CORES['red'] + mapa_jogador[i][j] + CORES['reset'], end="  ")
             else:
-                print(CORES['yellow'] + mapa_jogador[i][j] + CORES['reset'], end="  ")
+                print(CORES['magenta'] + mapa_jogador[i][j] + CORES['reset'], end="  ")
         print(f" {i+1}", end="")
         print("      ", end="")
         print(f"{i+1:2} ", end="")
@@ -161,7 +162,7 @@ def imprime_mapa(mapa_jogador, mapa_computador, nome_pais_jogador, nome_pais_com
             else:
                 print(CORES['cyan'] + mapa_computador[i][j] + CORES['reset'], end="  ")
         print(f" {i+1}")
-    print("   " + "  ".join([ALFABETO[i] for i in range(N)]), end="")
+    print("   " + "  ".join([ALFABETO[i] for i in range(N)]), end="    ")
     print("       ", end="")
     print("   " + "  ".join([ALFABETO[i] for i in range(N)]))
 
@@ -299,6 +300,7 @@ def batalha_naval():
         print("Preparando para iniciar o jogo:")
         for i in range(5, 0, -1):
             print(i)
+            time.sleep(1)
         print("Iniciando o jogo...")
         while not jogador_venceu and not computador_venceu:
             if vez_jogador:
