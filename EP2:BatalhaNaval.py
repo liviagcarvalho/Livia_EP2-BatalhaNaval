@@ -50,7 +50,7 @@ PAISES =  {
     }
 }
 
-ALFABETO = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+ALFABETO = 'ABCDEFGHIJ'
 
 CORES = {
     'reset': '\u001b[0m',
@@ -144,7 +144,7 @@ def imprime_mapa(mapa):
         print(f" {i+1}")
     print("   " + "  ".join([ALFABETO[i] for i in range(N)]))
 
-    # Função para o jogador humano alocar seus navios
+    # Função para o jogador real alocar seus navios
 def aloca_navios_humano(mapa, nome_pais):
     for tipo_navio, quantidade in PAISES[nome_pais].items():
         print(f"Aloque os navios do tipo {tipo_navio}:")
@@ -153,38 +153,54 @@ def aloca_navios_humano(mapa, nome_pais):
             while not sucesso:
                 imprime_mapa(mapa)
                 print(f"\nAlocação do {i+1}º {tipo_navio}")
-                linha = int(input("Digite o número da linha (1 a 10): ")) - 1
-                coluna = ALFABETO.index(input("Digite a letra da coluna (A a J): ").upper())
-                orientacao = input("Digite a orientação do navio (v para vertical, h para horizontal): ").lower()
-                if posicao_suporta(mapa, CONFIGURACAO[tipo_navio], linha, coluna, orientacao):
-                    if orientacao == 'v':
-                        for j in range(linha, linha + CONFIGURACAO[tipo_navio]):
-                            mapa[j][coluna] = 'N'
-                    else:
-                        for j in range(coluna, coluna + CONFIGURACAO[tipo_navio]):
-                            mapa[linha][j] = 'N'
-                    sucesso = True
+                linha = input("Digite o número da linha (1 a 10): ")
+                if not linha.isdigit() or int(linha) < 1 or int(linha) > 10:
+                    print("Linha inválida, tente novamente.")
                 else:
-                    print("Posição inválida, tente novamente.")
+                    linha = int(linha) - 1
+                    coluna = input("Digite a letra da coluna (A a J): ").upper()
+                    if coluna not in ALFABETO:
+                        print("Coluna inválida, tente novamente.")
+                    else:
+                        coluna = ALFABETO.index(coluna)
+                        orientacao = input("Digite a orientação do navio (v para vertical, h para horizontal): ").lower()
+                        if posicao_suporta(mapa, CONFIGURACAO[tipo_navio], linha, coluna, orientacao):
+                            if orientacao == 'v':
+                                for j in range(linha, linha + CONFIGURACAO[tipo_navio]):
+                                    mapa[j][coluna] = 'N'
+                            else:
+                                for j in range(coluna, coluna + CONFIGURACAO[tipo_navio]):
+                                    mapa[linha][j] = 'N'
+                            sucesso = True
+                        else:
+                            print("Posição inválida, tente novamente.")
 
-    # Função para o jogador humano realizar um ataque
+    # Função para o jogador real realizar um ataque
 def ataque_humano(mapa):
     sucesso = False
     while not sucesso:
         imprime_mapa(mapa)
         print("\nAtaque:")
-        linha = int(input("Digite o número da linha (1 a 10): ")) - 1
-        coluna = ALFABETO.index(input("Digite a letra da coluna (A a J): ").upper())
-        if mapa[linha][coluna] == ' ':
-            print("Água!")
-            mapa[linha][coluna] = 'O'
-            sucesso = True
-        elif mapa[linha][coluna] == 'N':
-            print("Acertou um navio!")
-            mapa[linha][coluna] = 'X'
-            sucesso = True
+        linha = input("Digite o número da linha (1 a 10): ")
+        if not linha.isdigit() or int(linha) < 1 or int(linha) > 10:
+            print("Linha inválida, tente novamente.")
         else:
-            print("Já atacou essa posição, tente novamente.")
+            linha = int(linha) - 1
+            coluna = input("Digite a letra da coluna (A a J): ").upper()
+            if coluna not in ALFABETO:
+                print("Coluna inválida, tente novamente.")
+            else:
+                coluna = ALFABETO.index(coluna)
+                if mapa[linha][coluna] == ' ':
+                    print("Água!")
+                    mapa[linha][coluna] = 'O'
+                    sucesso = True
+                elif mapa[linha][coluna] == 'N':
+                    print("Acertou um navio!")
+                    mapa[linha][coluna] = 'X'
+                    sucesso = True
+                else:
+                    print("Já atacou essa posição, tente novamente.")
 
     # Função para o jogador computador realizar um ataque
 def ataque_computador(mapa):
