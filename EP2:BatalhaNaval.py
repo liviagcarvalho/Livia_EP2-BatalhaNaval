@@ -153,7 +153,7 @@ def imprime_mapa(mapa_jogador, mapa_computador, nome_pais_jogador, nome_pais_com
                 print(CORES['red'] + mapa_jogador[i][j] + CORES['reset'], end="  ")
             else:
                 print(CORES['cyan'] + mapa_jogador[i][j] + CORES['reset'], end="  ")
-        print(f" {i+1}", end="")
+        print(f"{i+1:2}", end="")
         print("      ", end="")
         print(f"{i+1:2} ", end="")
         for j in range(N):
@@ -163,11 +163,10 @@ def imprime_mapa(mapa_jogador, mapa_computador, nome_pais_jogador, nome_pais_com
                 print(CORES['red'] + mapa_computador[i][j] + CORES['reset'], end="  ")
             else:
                 print(CORES['cyan'] + mapa_computador[i][j] + CORES['reset'], end="  ")
-        print(f" {i+1}")
+        print(f"{i+1:2}")
     print("   " + "  ".join([ALFABETO[i] for i in range(N)]), end="   ")
     print("       ", end="")
     print("   " + "  ".join([ALFABETO[i] for i in range(N)]))
-
 
 # Função para o jogador real alocar seus navios
 def aloca_navios_humano(mapa_jogador, mapa_computador, nome_pais_jogador, nome_pais_computador):
