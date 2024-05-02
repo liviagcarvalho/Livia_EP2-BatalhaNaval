@@ -160,7 +160,7 @@ def imprime_mapa(mapa_jogador, mapa_computador, nome_pais_jogador, nome_pais_com
             if mapa_computador[i][j] == ' ' or mapa_computador[i][j] == '🛳':
                 print(CORES['red'] + ' ' + CORES['reset'], end="  ")
             elif mapa_computador[i][j] == 'X':
-                print(CORES['red'] + mapa_jogador[i][j] + CORES['reset'], end="🛳 ")
+                print(CORES['red'] + mapa_computador[i][j] + CORES['reset'], end="  ")
             else:
                 print(CORES['cyan'] + mapa_computador[i][j] + CORES['reset'], end="  ")
         print(f" {i+1}")
