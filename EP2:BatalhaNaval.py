@@ -219,26 +219,48 @@ def ataque_computador(mapa):
             mapa[linha][coluna] = 'X'
             sucesso = True
 
+# Função para escolher aleatoriamente o país do computador
+def escolher_pais_computador():
+    return random.choice(list(PAISES.keys()))
+
+# Função para imprimir a lista de países
+def imprime_paises():
+    print("Escolha seu país:")
+    for i, (pais, navios) in enumerate(PAISES.items(), 1):
+        print(f"{i}: {pais}")
+        for tipo_navio, quantidade in navios.items():
+            print(f"{quantidade} {tipo_navio}")
+        print()
+
 ##############################################################################################################################################
 #   Colocando o jogo para funcionar!  #
 
 def batalha_naval():
-    print("Bem-vindo ao jogo de Batalha Naval!\n")
-    print("Escolha seu país:")
-    for i, pais in enumerate(PAISES.keys()):
-        print(f"{i+1}. {pais}")
-    escolha = int(input("Digite o número correspondente ao país que você deseja representar: "))
-    while escolha < 1 or escolha > len(PAISES):
-        print("Escolha inválida, tente novamente.")
-        escolha = int(input("Digite o número correspondente ao país que você deseja representar: "))
-    nome_pais = list(PAISES.keys())[escolha - 1]
+    print("\033[1;30;47m======================================\033[m")
+    print("\033[1;30;47m|                                    |\033[m")
+    print("\033[1;30;47m|   \033[1;35m Bem-vindo ao Batalha Naval (:  \033[1;30;47m |\033[m")
+    print("\033[1;30;47m|                                    |\033[m")
+    print("\033[1;30;47m =====================================\033[m")
+    nome_pais_computador = escolher_pais_computador()
+    print(f"Computador está alocando os navios de guerra do país {nome_pais_computador}...")
+    print("Computador está pronto para jogar!")
     mapa_jogador = cria_mapa(10)
     mapa_computador = cria_mapa(10)
-    aloca_navios_humano(mapa_jogador, nome_pais)
+    imprime_paises()
+    escolha = int(input("Qual o número da nação da sua frota? "))
+    while escolha < 1 or escolha > len(PAISES):
+        print("Escolha inválida, tente novamente.")
+        escolha = int(input("Qual o número da nação da sua frota? "))
+    nome_pais_jogador = list(PAISES.keys())[escolha - 1]
+    aloca_navios_humano(mapa_jogador, nome_pais_jogador)
     aloca_navios(mapa_computador, [CONFIGURACAO[tipo] for tipo in PAISES[random.choice(list(PAISES.keys()))].keys()])
     jogador_venceu = False
     computador_venceu = False
     vez_jogador = random.choice([True, False])
+    print("Preparando para iniciar o jogo:")
+    for i in range(5, 0, -1):
+        print(i)
+    print("Iniciando o jogo...")
     while not jogador_venceu and not computador_venceu:
         if vez_jogador:
             print("\nSua vez de atacar!")
