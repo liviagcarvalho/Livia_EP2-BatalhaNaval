@@ -120,17 +120,17 @@ def aloca_navios(mapa, blocos):
             if posicao_suporta(mapa, navio, linha, coluna, orientacao):
                 if orientacao == 'v':
                     for i in range(linha, linha + navio):
-                        mapa[i][coluna] = 'N'
+                        mapa[i][coluna] = '🛳'
                 else:
                     for j in range(coluna, coluna + navio):
-                        mapa[linha][j] = 'N'
+                        mapa[linha][j] = '🛳'
                 alocando_navio = True
     return mapa
 
     # Verifica se acabou os 'N's da matriz
 def foi_derrotado(matriz):
     for linha in matriz:
-        if 'N' in linha:
+        if '🛳' in linha:
             return False
     return True
 
@@ -141,7 +141,7 @@ def foi_derrotado(matriz):
 def imprime_mapa(mapa_jogador, mapa_computador, nome_pais_jogador, nome_pais_computador):
     N = len(mapa_jogador)
     print(f"    JOGADOR - {nome_pais_jogador:20}{'           COMPUTADOR - ' + nome_pais_computador:20}")
-    print("   " + "  ".join([ALFABETO[i] for i in range(N)]), end="    ")
+    print("   " + "  ".join([ALFABETO[i] for i in range(N)]), end="   ")
     print("       ", end="")
     print("   " + "  ".join([ALFABETO[i] for i in range(N)]))
     for i in range(N):
@@ -152,17 +152,19 @@ def imprime_mapa(mapa_jogador, mapa_computador, nome_pais_jogador, nome_pais_com
             elif mapa_jogador[i][j] == 'X':
                 print(CORES['red'] + mapa_jogador[i][j] + CORES['reset'], end="  ")
             else:
-                print(CORES['magenta'] + mapa_jogador[i][j] + CORES['reset'], end="  ")
+                print(CORES['cyan'] + mapa_jogador[i][j] + CORES['reset'], end="  ")
         print(f" {i+1}", end="")
         print("      ", end="")
         print(f"{i+1:2} ", end="")
         for j in range(N):
-            if mapa_computador[i][j] == ' ' or mapa_computador[i][j] == 'N':
-                print(CORES['cyan'] + ' ' + CORES['reset'], end="  ")
+            if mapa_computador[i][j] == ' ' or mapa_computador[i][j] == '🛳':
+                print(CORES['red'] + ' ' + CORES['reset'], end="  ")
+            elif mapa_computador[i][j] == 'X':
+                print(CORES['red'] + mapa_jogador[i][j] + CORES['reset'], end="🛳 ")
             else:
                 print(CORES['cyan'] + mapa_computador[i][j] + CORES['reset'], end="  ")
         print(f" {i+1}")
-    print("   " + "  ".join([ALFABETO[i] for i in range(N)]), end="    ")
+    print("   " + "  ".join([ALFABETO[i] for i in range(N)]), end="   ")
     print("       ", end="")
     print("   " + "  ".join([ALFABETO[i] for i in range(N)]))
 
@@ -181,7 +183,7 @@ def aloca_navios_humano(mapa_jogador, mapa_computador, nome_pais_jogador, nome_p
                 print(f"\nAlocação do {i+1}º {tipo_navio}\n")
                 imprime_mapa(mapa_jogador, mapa_computador, nome_pais_jogador, nome_pais_computador)
                 linha = input("\nDigite o número da linha (1 a 10): ")
-                if not linha.isdigit() or int(linha) < 1 or int(linha) > 10:
+                if not linha or not linha.replace("-", "").replace(" ", "").replace("+", "").replace(".", "").replace(",", "").replace("e", "").replace("E", "").replace("/", "").replace("\\", "").replace("?", "").replace("!", "").replace("@", "").replace("#", "").replace("$", "").replace("%", "").replace("^", "").replace("&", "").replace("*", "").replace("(", "").replace(")", "").replace("[", "").replace("]", "").replace("{", "").replace("}", "") in "0123456789" or int(linha) < 1 or int(linha) > 10:
                     print("Linha inválida, tente novamente.")
                     continue
                 linha = int(linha) - 1
@@ -194,10 +196,10 @@ def aloca_navios_humano(mapa_jogador, mapa_computador, nome_pais_jogador, nome_p
                 if posicao_suporta(mapa_jogador, tipo_navio_bloco, linha, coluna, orientacao):
                     if orientacao == 'v':
                         for j in range(linha, linha + tipo_navio_bloco):
-                            mapa_jogador[j][coluna] = 'N'
+                            mapa_jogador[j][coluna] = '🛳'
                     else:
                         for j in range(coluna, coluna + tipo_navio_bloco):
-                            mapa_jogador[linha][j] = 'N'
+                            mapa_jogador[linha][j] = '🛳'
                     sucesso = True
                 else:
                     print("Posição inválida, tente novamente.")
@@ -227,7 +229,7 @@ def ataque_humano(mapa_jogador, mapa_computador, nome_pais_jogador, nome_pais_co
                         print("Água!")
                         mapa_computador[linha][coluna] = 'O'
                         sucesso = True
-                    elif mapa_computador[linha][coluna] == 'N':
+                    elif mapa_computador[linha][coluna] == '🛳':
                         print("Acertou um navio!")
                         mapa_computador[linha][coluna] = 'X'
                         sucesso = True
@@ -245,7 +247,7 @@ def ataque_computador(mapa_jogador, mapa_computador, nome_pais_jogador, nome_pai
             print("Água!")
             mapa_jogador[linha][coluna] = 'O'
             sucesso = True
-        elif mapa_jogador[linha][coluna] == 'N':
+        elif mapa_jogador[linha][coluna] == '🛳':
             print("O computador atacou: ", ALFABETO[coluna] + str(linha+1))
             print("Acertou um navio!")
             mapa_jogador[linha][coluna] = 'X'
