@@ -275,14 +275,14 @@ def imprime_paises():
 def batalha_naval():
     jogar_novamente = 's'
     while jogar_novamente == 's':
-        print("\033[1;30;m======================================\033[m")
-        print("\033[1;30;m|                                    |\033[m")
-        print("\033[1;30;m|                                    |\033[m")
-        print("\033[1;30;m|   \033[1;35m Bem-vindo ao Batalha Naval (;  \033[1;30;m |\033[m")
-        print("\033[1;30;m|   \033[1;35m         BOA SORTE!             \033[1;30;m |\033[m")
-        print("\033[1;30;m|                                    |\033[m")
-        print("\033[1;30;m|                                    |\033[m")
-        print("\033[1;30;m======================================\033[m")
+        print("\033[1;35m          ======================================\033[m")
+        print("\033[1;35m          |                                    |\033[m")
+        print("\033[1;35m          |                                    |\033[m")
+        print("\033[1;35m          |   \033[1;35m Bem-vindo ao Batalha Naval (;  \033[1;35m |\033[m")
+        print("\033[1;35m          |   \033[1;35m         BOA SORTE!             \033[1;35m |\033[m")
+        print("\033[1;35m          |                                    |\033[m")
+        print("\033[1;35m          |                                    |\033[m")
+        print("\033[1;35m          ======================================\033[m")
         print(" ")
         time.sleep(1)
         nome_pais_computador = escolher_pais_computador()
@@ -294,7 +294,7 @@ def batalha_naval():
         mapa_jogador = cria_mapa(10)
         mapa_computador = cria_mapa(10)
         imprime_paises()
-    
+
         escolha = input("Qual o número da nação da sua frota? ")
         while not escolha.isdigit() or int(escolha) < 1 or int(escolha) > len(PAISES):
             print("Escolha inválida, tente novamente.")
