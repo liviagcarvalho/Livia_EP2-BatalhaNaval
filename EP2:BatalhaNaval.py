@@ -294,11 +294,13 @@ def batalha_naval():
         mapa_jogador = cria_mapa(10)
         mapa_computador = cria_mapa(10)
         imprime_paises()
-        escolha = int(input("Qual o número da nação da sua frota? "))
-        while escolha < 1 or escolha > len(PAISES):
+    
+        escolha = input("Qual o número da nação da sua frota? ")
+        while not escolha.isdigit() or int(escolha) < 1 or int(escolha) > len(PAISES):
             print("Escolha inválida, tente novamente.")
-            escolha = int(input("Qual o número da nação da sua frota? "))
-        nome_pais_jogador = list(PAISES.keys())[escolha - 1]
+            escolha = input("Qual o número da nação da sua frota? ")
+        
+        nome_pais_jogador = list(PAISES.keys())[int(escolha) - 1]
         aloca_navios_humano(mapa_jogador, mapa_computador, nome_pais_jogador, nome_pais_computador)
         aloca_navios(mapa_computador, [CONFIGURACAO[tipo] for tipo in PAISES[nome_pais_computador].keys()])
         jogador_venceu = False
@@ -309,6 +311,7 @@ def batalha_naval():
             print(i)
             time.sleep(1)
         print("Iniciando o jogo...")
+        
         while not jogador_venceu and not computador_venceu:
             if vez_jogador:
                 print("\nSua vez de atacar!")
@@ -321,6 +324,7 @@ def batalha_naval():
                 if foi_derrotado(mapa_jogador):
                     computador_venceu = True
             vez_jogador = not vez_jogador
+        
         print("\nJogo encerrado!")
         if jogador_venceu:
             print(f"Parabéns! Você venceu representando o país {nome_pais_jogador}!")
